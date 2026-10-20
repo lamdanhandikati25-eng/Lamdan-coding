@@ -1,0 +1,31 @@
+import math  # Mengimpor fungsi matematika.
+
+a = 25  # Menentukan titik pusat Taylor.
+x = 26  # Menentukan nilai x yang dihampiri.
+h = x - a  # Menghitung selisih x dan titik pusat.
+nilai_sebenarnya = math.sqrt(x)  # Menghitung nilai akar sebenarnya.
+koefisien = []  # Menyiapkan daftar koefisien Taylor.
+
+for k in range(5):  # Menghitung koefisien orde nol sampai empat.
+    if k == 0:  # Memeriksa orde nol.
+        koef = math.sqrt(a)  # Menghitung koefisien orde nol.
+    elif k == 1:  # Memeriksa orde satu.
+        koef = 1 / (2 * math.sqrt(a))  # Menghitung koefisien orde satu.
+    else:  # Menghitung koefisien orde dua sampai empat.
+        koef *= (1.5 - (k - 1)) / (k * a)  # Menghitung koefisien berikutnya.
+    koefisien.append(koef)  # Menyimpan koefisien.
+
+nilai_p = 0.0  # Menentukan nilai awal polinomial.
+orde_minimal = None  # Menyiapkan variabel orde minimal.
+
+for n in range(5):  # Menghitung polinomial orde nol sampai empat.
+    nilai_p += koefisien[n] * (h ** n)  # Menambahkan suku Taylor.
+    galat = abs(nilai_sebenarnya - nilai_p)  # Menghitung galat absolut.
+    print(f"P{n}(26) = {nilai_p:.10f}, galat = {galat:.12f}")  # Menampilkan hasil.
+    if orde_minimal is None and galat < 1e-6:  # Memeriksa batas galat.
+        orde_minimal = n  # Menyimpan orde terkecil yang memenuhi syarat.
+
+if orde_minimal is not None:  # Memeriksa apakah syarat terpenuhi.
+    print(f"Orde minimal adalah {orde_minimal}.")  # Menampilkan orde minimal.
+else:  # Jika syarat belum terpenuhi.
+    print("Orde 0 sampai 4 belum memenuhi syarat.")  # Menampilkan informasi.
